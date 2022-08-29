@@ -19,6 +19,7 @@ I've added extra packages to the project for quality of life and better/faster d
 
 -   TypeScript: Added basic interfaces and types to components, no need for something more in the scope of this project
 -   Even though I'm using Next.js, I could've gotten the data directly, but I choose to simulate a random interval to fetch the data so the search component has to handle the lack of data as well.
+-   I used styled components only in the search component itself, it was easier faster to me.
 
 # Hive.one part - Frontend Take Home Task
 
