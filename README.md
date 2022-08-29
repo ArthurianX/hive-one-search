@@ -10,7 +10,7 @@ I've added extra packages to the project for quality of life and better/faster d
 -   `Next.js`, tied to a vercel account, deployed on web for testing
 -   `prettier` (code formatting)
 -   `lint-staged` (runs code formatting every commit)
--   `styled-components` per the tasks's request
+-   `styled-components` per the task's request
     Possibly unnecessary components, but to have things more complete:
 -   `sass` (to use scss files)
 -   ChakraUI (React UI Component library), for the general template

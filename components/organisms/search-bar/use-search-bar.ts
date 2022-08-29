@@ -3,7 +3,7 @@ import {
     SearchBarProps,
     SearchScope,
 } from './search-bar.types';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 const useSearchBar = ({
     users,
@@ -12,6 +12,10 @@ const useSearchBar = ({
     const [searchScope, setSearchScope] = useState(SearchScope.Users);
     const [searchValue, setSearchValue] = useState('');
     const [filteredUsers, setFilteredUsers] = useState();
+
+    useEffect(() => {
+        console.log('SearchScope has changed', searchScope);
+    }, [searchScope]);
 
     return {
         searchScope,
