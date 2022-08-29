@@ -16,4 +16,6 @@ export interface SearchBarInnerProps {
     setSearchScope: (scope: SearchScope) => void;
     searchValue: string;
     setSearchValue: (search: string) => void;
+    isFocused: boolean;
+    setIsFocused: (focusState: boolean) => void;
 }

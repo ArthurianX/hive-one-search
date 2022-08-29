@@ -1,21 +1,27 @@
 import styled from 'styled-components';
+import { SearchBarBlockProps } from './search-bar-block.types';
 
 const SearchBarBlockDiv = styled.div`
     display: flex;
     flex: 1;
-    padding: 0.5rem 0;
     margin: 0.5rem 1rem;
     background: #fff;
     height: 4rem;
-    border: 2px solid #ccc;
+    border: 2px solid;
     border-radius: 2rem;
     align-self: center;
+    border-color: ${({ isFocused }: SearchBarBlockProps) =>
+        isFocused ? '#3182ce' : '#ccc'};
 `;
 
-const SearchBarBlock = (props: any) => {
-    // search-bar-block-portal might not be needed here.
+const SearchBarBlock = (props: SearchBarBlockProps) => {
     return (
-        <SearchBarBlockDiv id={'search-bar-block-portal'}>
+        <SearchBarBlockDiv
+            onClick={() => {
+                props.setFocusCallback(true);
+            }}
+            {...props}
+        >
             {props.children}
         </SearchBarBlockDiv>
     );
