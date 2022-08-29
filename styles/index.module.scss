@@ -37,6 +37,8 @@
   display: flex;
   flex: 1;
   flex-direction: column;
+  overflow: auto;
+  height: calc(100vh - 6rem); // NOTE: This is hacky, don't have time now to find a different way.
 }
 
 

@@ -1,11 +1,10 @@
 import type { NextPage } from 'next';
 import Head from 'next/head';
-import { Skeleton, SkeletonCircle, SkeletonText } from '@chakra-ui/react';
 import styles from '../styles/index.module.scss';
 import { useEffect, useState } from 'react';
-import { HiveUsers } from './api/users.interface';
+import { HiveSearchEntity, HiveUsers } from './api/users.interface';
 import fetchUsers from '../services/fetch-users';
-import NoUsers from '../components/no-users';
+import SkeletonNoUsers from '../components/molecules/no-users';
 
 const Home: NextPage = () => {
     const [users, setUsers] = useState<HiveUsers>();
@@ -28,7 +27,18 @@ const Home: NextPage = () => {
             <main className={styles.main}>
                 <div className={styles.sidebar}></div>
                 <div className={styles.users}>
-                    <NoUsers />
+                    {/* Probably these lines should have been in a organism / template  */}
+                    {!users! && <SkeletonNoUsers />}
+
+                    {users! &&
+                        Object.values(users).map((user: HiveSearchEntity) => {
+                            return (
+                                <div key={user.idString}>
+                                    <h2>{user.name}</h2>
+                                    <hr />
+                                </div>
+                            );
+                        })}
                 </div>
             </main>
         </div>

@@ -17,9 +17,8 @@ I've added extra packages to the project for quality of life and better/faster d
 
 ### Some notes:
 
--   Responsiveness: is mainly handled by Chakra UI (their grid, instead of writing flex poetry)
 -   TypeScript: Added basic interfaces and types to components, no need for something more in the scope of this project
--   Others
+-   Even though I'm using Next.js, I could've gotten the data directly, but I choose to simulate a random interval to fetch the data so the search component has to handle the lack of data as well.
 
 # Hive.one part - Frontend Take Home Task
 
