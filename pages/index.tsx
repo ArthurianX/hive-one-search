@@ -5,12 +5,19 @@ import { useEffect, useState } from 'react';
 import { HiveSearchEntity, HiveUsers } from './api/users.interface';
 import fetchUsers from '../services/fetch-users';
 import SkeletonNoUsers from '../components/molecules/no-users';
+import User from '../components/molecules/user';
 
 const Home: NextPage = () => {
     const [users, setUsers] = useState<HiveUsers>();
+    const [filteredUsers, setFilteredUsers] = useState<Partial<HiveUsers>>();
 
     useEffect(() => {
-        fetchUsers().then((users) => setUsers(users));
+        fetchUsers().then((users) => {
+            setUsers(users);
+            // Set filtered users as well to the same result, not real world, but for ease of use.
+            setFilteredUsers(users);
+            console.log(users);
+        });
     }, []);
 
     return (
@@ -28,17 +35,14 @@ const Home: NextPage = () => {
                 <div className={styles.sidebar}></div>
                 <div className={styles.users}>
                     {/* Probably these lines should have been in a organism / template  */}
-                    {!users! && <SkeletonNoUsers />}
+                    {!filteredUsers! && <SkeletonNoUsers />}
 
-                    {users! &&
-                        Object.values(users).map((user: HiveSearchEntity) => {
-                            return (
-                                <div key={user.idString}>
-                                    <h2>{user.name}</h2>
-                                    <hr />
-                                </div>
-                            );
-                        })}
+                    {filteredUsers! &&
+                        Object.values(filteredUsers).map(
+                            (user: HiveSearchEntity) => {
+                                return <User user={user} />;
+                            },
+                        )}
                 </div>
             </main>
         </div>
