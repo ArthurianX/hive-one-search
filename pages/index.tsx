@@ -41,7 +41,7 @@ const Home: NextPage = () => {
                     {filteredUsers! &&
                         Object.values(filteredUsers).map(
                             (user: HiveSearchEntity) => {
-                                return <User user={user} />;
+                                return <User key={user.idString} user={user} />;
                             },
                         )}
                 </div>

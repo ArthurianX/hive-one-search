@@ -5,7 +5,7 @@ import { getRandomInt } from '../../../utils/random-interval';
 const User = ({ user }: { user: HiveSearchEntity }): JSX.Element => {
     // NOTE: Maybe this could have been split better in the atomic design ideology.
     return (
-        <div key={getRandomInt(1, 1100) + user.idString}>
+        <>
             <Box
                 padding="6"
                 boxShadow="lg"
@@ -30,7 +30,7 @@ const User = ({ user }: { user: HiveSearchEntity }): JSX.Element => {
                 </div>
             </Box>
             <Divider />
-        </div>
+        </>
     );
 };
 

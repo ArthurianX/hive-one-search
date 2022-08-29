@@ -10,6 +10,7 @@ const SearchBarBlockDiv = styled.div`
     border: 2px solid;
     border-radius: 2rem;
     align-self: center;
+    position: relative;
     border-color: ${({ isFocused }: SearchBarBlockProps) =>
         isFocused ? '#3182ce' : '#ccc'};
 `;
