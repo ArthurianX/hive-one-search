@@ -20,7 +20,6 @@ const SearchScopeAtom = ({
                     );
                 }}
                 variant="outline"
-                placeholder="Search scope"
             >
                 <option value={SearchScope.Users}>Users</option>
                 <option value={SearchScope.Communities}>Communities</option>
