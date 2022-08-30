@@ -1,6 +1,5 @@
 import { Box, Divider, SkeletonCircle, SkeletonText } from '@chakra-ui/react';
 import { HiveSearchEntity } from '../../../pages/api/users.interface';
-import { getRandomInt } from '../../../utils/random-interval';
 
 const User = ({ user }: { user: HiveSearchEntity }): JSX.Element => {
     // NOTE: Maybe this could have been split better in the atomic design ideology.

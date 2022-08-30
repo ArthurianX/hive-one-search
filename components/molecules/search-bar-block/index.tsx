@@ -21,6 +21,7 @@ const SearchBarBlock = (props: SearchBarBlockProps) => {
             onClick={() => {
                 props.setFocusCallback(true);
             }}
+            ref={props.forwardedRef}
             {...props}
         >
             {props.children}

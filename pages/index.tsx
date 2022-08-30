@@ -11,6 +11,7 @@ import SearchBar from '../components/organisms/search-bar';
 const Home: NextPage = () => {
     const [users, setUsers] = useState<HiveUsers>();
     const [filteredUsers, setFilteredUsers] = useState<Partial<HiveUsers>>();
+    const [overlayOpen, setOverlayOpen] = useState<boolean>(false);
 
     useEffect(() => {
         fetchUsers().then((users) => {
@@ -30,14 +31,21 @@ const Home: NextPage = () => {
 
             <header className={styles.header}>
                 <div className={styles.logo}></div>
-                <SearchBar users={users!} filteredCallback={setFilteredUsers} />
+                <SearchBar
+                    users={users!}
+                    filteredCallback={setFilteredUsers}
+                    overlayCallback={setOverlayOpen}
+                />
             </header>
-            <main className={styles.main}>
+            <main
+                className={`${styles.main} ${
+                    overlayOpen ? styles.mainBlurred : ''
+                }`}
+            >
                 <div className={styles.sidebar}></div>
                 <div className={styles.users}>
                     {/* Probably these lines should have been in an organism / template  */}
                     {!filteredUsers! && <SkeletonNoUsers />}
-
                     {filteredUsers! &&
                         Object.values(filteredUsers).map(
                             (user: HiveSearchEntity) => {
