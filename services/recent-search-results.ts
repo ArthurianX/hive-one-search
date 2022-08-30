@@ -1,4 +1,4 @@
-import { HiveUsers } from '../pages/api/users.interface';
+import { HiveUsers } from '../pages/api/data.interface';
 
 const hiveKey = 'HiveOneRecentSearches';
 

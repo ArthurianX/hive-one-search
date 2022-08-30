@@ -1,7 +1,4 @@
-import {
-    HiveSearchEntity,
-    HiveUsers,
-} from '../../../pages/api/users.interface';
+import { HiveSearchEntity, HiveUsers } from '../../../pages/api/data.interface';
 import User from '../user';
 
 const SearchResults = ({ users }: { users: Partial<HiveUsers> }) => {

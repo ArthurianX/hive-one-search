@@ -1,9 +1,6 @@
 import { getRecentSearchResults } from '../../../services/recent-search-results';
 import { useEffect, useState } from 'react';
-import {
-    HiveSearchEntity,
-    HiveUsers,
-} from '../../../pages/api/users.interface';
+import { HiveSearchEntity, HiveUsers } from '../../../pages/api/data.interface';
 import User from '../user';
 
 const RecentResults = () => {

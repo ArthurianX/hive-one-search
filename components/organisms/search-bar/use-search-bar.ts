@@ -7,6 +7,7 @@ import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { HiveUsers } from '../../../pages/api/data.interface';
 import { throttle } from 'lodash';
 import { setRecentSearchResults } from '../../../services/recent-search-results';
+import { useRouter } from 'next/router';
 
 const useSearchBar = ({
     users,
@@ -14,10 +15,16 @@ const useSearchBar = ({
     filteredCallback,
     overlayCallback,
 }: SearchBarProps): SearchBarInnerProps => {
+    // NOTE: If we are on a 'search' page, set the default values
+    const router = useRouter();
+    const { scope, term } = router.query;
+
     const [searchScope, setSearchScope] = useState<SearchScope>(
-        SearchScope.Users,
+        (scope as SearchScope) || SearchScope.Users,
     );
-    const [searchValue, setSearchValue] = useState<string>('');
+    const [searchValue, setSearchValue] = useState<string>(
+        (term as string) || '',
+    );
     const [filteredEntities, setFilteredEntities] =
         useState<Partial<HiveUsers>>();
     const [searchBlockWidth, setSearchBlockWidth] = useState<number>(0);
@@ -27,11 +34,13 @@ const useSearchBar = ({
 
     const searchBlockRef = useRef<HTMLDivElement>();
 
-    const searchHandler = () => {
+    const searchHandler = (scope: SearchScope, term: string) => {
         // Do a loose search of an entire property of HiveUsers
         // TODO: FYI, this search is very impractical, I'll leave it like this for the moment
+
+        console.log('searchHandler for ', scope, term);
         let results: Partial<HiveUsers> | undefined = undefined;
-        switch (searchScope) {
+        switch (scope) {
             case SearchScope.Communities:
                 communities &&
                     Object.keys(communities).map((key, index) => {
@@ -41,8 +50,8 @@ const useSearchBar = ({
                         ).toLowerCase();
 
                         if (
-                            searchValue &&
-                            stringified.indexOf(searchValue.toLowerCase()) > -1
+                            term &&
+                            stringified.indexOf(term.toLowerCase()) > -1
                             // NOTE: In the Task requirements, search is to be handled differently, this is more loose and with less checks.
                         ) {
                             !results ? (results = {}) : '';
@@ -60,8 +69,8 @@ const useSearchBar = ({
                         ).toLowerCase();
 
                         if (
-                            searchValue &&
-                            stringified.indexOf(searchValue.toLowerCase()) > -1
+                            term &&
+                            stringified.indexOf(term.toLowerCase()) > -1
                             // NOTE: In the Task requirements, search is to be handled differently, this is more loose and with less checks.
                         ) {
                             !results ? (results = {}) : '';
@@ -73,26 +82,34 @@ const useSearchBar = ({
             default:
         }
         setFilteredEntities(results);
+        return results;
     };
 
     const throttledSearchHandler = useMemo(
-        () => throttle(searchHandler, 300),
+        () => throttle(() => searchHandler(searchScope, searchValue), 300),
         [searchValue],
     );
 
     const endSearchCallback = () => {
         if (filteredEntities) {
-            searchHandler();
+            searchHandler(searchScope, searchValue);
             setIsFocused(false);
             setSearchValue('');
             filteredCallback(filteredEntities);
             setRecentSearchResults(filteredEntities);
+
+            // NOTE: Shallowly push the query params
+            router.push(
+                `?scope=${searchScope}&term=${searchValue}`,
+                undefined,
+                { shallow: true },
+            );
         }
     };
 
     useEffect(() => {
         // Note: When scope changes, redo the search
-        searchHandler();
+        searchHandler(searchScope, searchValue);
     }, [searchScope]);
 
     useEffect(() => {
@@ -111,6 +128,7 @@ const useSearchBar = ({
     }, [searchBlockRef.current]);
 
     useEffect(() => {
+        // NOTE: Handle clicking outside the search container
         const handleClickOutside = (event: any) => {
             if (
                 searchBlockRef.current &&
@@ -118,14 +136,25 @@ const useSearchBar = ({
             ) {
                 setIsFocused(false);
                 setSearchValue('');
-                // setSearchScope(SearchScope.Users);
             }
         };
         document.addEventListener('click', handleClickOutside, true);
+
+        // NOTE: Remove listener when unmounting.
         return () => {
             document.removeEventListener('click', handleClickOutside, true);
         };
     }, []);
+
+    useEffect(() => {
+        if (scope && term) {
+            setSearchScope(scope as SearchScope);
+            setSearchValue(term as string);
+            filteredCallback(
+                searchHandler(scope as SearchScope, term as string)!,
+            );
+        }
+    }, [users, communities]);
 
     return {
         searchScope,
