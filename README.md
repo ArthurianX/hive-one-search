@@ -1,7 +1,13 @@
 # Hive.one Coding Challenge
 
-Change THIS:
-https://user-images.githubusercontent.com/2720451/183600331-4051debb-36ff-49a7-b05c-c42f40fb8288.mp4
+
+
+https://user-images.githubusercontent.com/2720451/187471273-c4f02f39-7da2-4ea3-a2b1-e889fb315175.mp4
+
+
+Build log has some warnings, I didn't have the time to handle all.
+<img width="1440" alt="image" src="https://user-images.githubusercontent.com/2720451/187470166-771bf3fe-f5eb-4e93-b9f3-d53e980d34d0.png">
+
 
 ## Packages and their purpose
 
