@@ -4,6 +4,8 @@ import SearchBarBlock from '../../molecules/search-bar-block';
 import SearchScopeAtom from '../../atoms/search-scope';
 import SearchInputAtom from '../../atoms/search-input';
 import SearchResultsBlock from '../../molecules/search-results-block';
+import RecentResults from '../../molecules/recent-results';
+import SearchResults from '../../molecules/search-results';
 
 const SearchBar = (props: SearchBarProps): JSX.Element => {
     const {
@@ -11,11 +13,12 @@ const SearchBar = (props: SearchBarProps): JSX.Element => {
         setSearchScope,
         searchValue,
         setSearchValue,
-        filteredUsers,
+        filteredEntities,
         isFocused,
         setIsFocused,
         searchBlockRef,
         searchBlockWidth,
+        endSearchCallback,
     } = useSearchBar(props);
     // NOTE: This is also the brain of this organism, all other atoms should be as functional as possible.
 
@@ -32,12 +35,16 @@ const SearchBar = (props: SearchBarProps): JSX.Element => {
             <SearchInputAtom
                 searchValue={searchValue}
                 setValueCallback={setSearchValue}
+                setEnterCallback={endSearchCallback}
             />
             <SearchResultsBlock
                 isFocused={isFocused}
                 searchBlockWidth={searchBlockWidth}
             >
-                <div>a</div>
+                {searchValue.length < 3 && <RecentResults />}
+                {searchValue.length > 2 && (
+                    <SearchResults users={filteredEntities!} />
+                )}
             </SearchResultsBlock>
         </SearchBarBlock>
     );

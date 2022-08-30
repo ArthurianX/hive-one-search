@@ -31,6 +31,21 @@ const SearchInputAtom = (props: SearchInputProps) => {
             value={props.searchValue}
             // onChange={throttledChangeHandler}
             onChange={(event) => props.setValueCallback(event.target.value)}
+            onKeyUp={(event) => {
+                if (
+                    event.key === 'Enter' ||
+                    event.keyCode === 13 ||
+                    event.which === 13
+                ) {
+                    // @ts-ignore
+                    props.setEnterCallback(event.target.value);
+
+                    // TODO: There's a problem here, we need to blur the input on ENTER,
+                    //  but ONLY when there are results, I will not handle this case here.
+                    // @ts-ignore
+                    event.target.blur();
+                }
+            }}
         />
     );
 };

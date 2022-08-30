@@ -2,22 +2,26 @@ import type { NextPage } from 'next';
 import Head from 'next/head';
 import styles from '../styles/index.module.scss';
 import { useEffect, useState } from 'react';
-import { HiveSearchEntity, HiveUsers } from './api/users.interface';
-import fetchUsers from '../services/fetch-users';
+import { HiveSearchEntity, HiveUsers } from './api/data.interface';
+import fetchData from '../services/fetch-data';
 import SkeletonNoUsers from '../components/molecules/no-users';
 import User from '../components/molecules/user';
 import SearchBar from '../components/organisms/search-bar';
 
 const Home: NextPage = () => {
     const [users, setUsers] = useState<HiveUsers>();
-    const [filteredUsers, setFilteredUsers] = useState<Partial<HiveUsers>>();
+    const [communities, setCommunities] = useState<HiveUsers>();
+    const [filteredResults, setFilteredResults] =
+        useState<Partial<HiveUsers>>();
     const [overlayOpen, setOverlayOpen] = useState<boolean>(false);
 
     useEffect(() => {
-        fetchUsers().then((users) => {
+        fetchData().then(({ users, communities }) => {
+            // @ts-ignore
             setUsers(users);
+            setCommunities(communities);
             // Set filtered users as well to the same result, not real world, but for ease of use.
-            setFilteredUsers(users);
+            setFilteredResults(users);
         });
     }, []);
 
@@ -33,7 +37,8 @@ const Home: NextPage = () => {
                 <div className={styles.logo}></div>
                 <SearchBar
                     users={users!}
-                    filteredCallback={setFilteredUsers}
+                    communities={communities!}
+                    filteredCallback={setFilteredResults}
                     overlayCallback={setOverlayOpen}
                 />
             </header>
@@ -45,11 +50,13 @@ const Home: NextPage = () => {
                 <div className={styles.sidebar}></div>
                 <div className={styles.users}>
                     {/* Probably these lines should have been in an organism / template  */}
-                    {!filteredUsers! && <SkeletonNoUsers />}
-                    {filteredUsers! &&
-                        Object.values(filteredUsers).map(
-                            (user: HiveSearchEntity) => {
-                                return <User key={user.idString} user={user} />;
+                    {!filteredResults! && <SkeletonNoUsers />}
+                    {filteredResults! &&
+                        Object.values(filteredResults).map(
+                            (entity: HiveSearchEntity) => {
+                                return (
+                                    <User key={entity.idString} user={entity} />
+                                );
                             },
                         )}
                 </div>

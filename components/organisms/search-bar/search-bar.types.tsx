@@ -1,4 +1,4 @@
-import { HiveUsers } from '../../../pages/api/users.interface';
+import { HiveUsers } from '../../../pages/api/data.interface';
 import { RefObject } from 'react';
 
 export enum SearchScope {
@@ -8,12 +8,13 @@ export enum SearchScope {
 
 export interface SearchBarProps {
     users: HiveUsers;
+    communities: Partial<HiveUsers>;
     filteredCallback: (users: Partial<HiveUsers>) => void;
     overlayCallback: (isFocused: boolean) => void;
 }
 
 export interface SearchBarInnerProps {
-    filteredUsers: Partial<HiveUsers> | undefined;
+    filteredEntities: Partial<HiveUsers> | undefined;
     searchScope: SearchScope;
     setSearchScope: (scope: SearchScope) => void;
     searchValue: string;
@@ -22,4 +23,5 @@ export interface SearchBarInnerProps {
     setIsFocused: (focusState: boolean) => void;
     searchBlockRef: RefObject<any>; // TODO: Type this properly
     searchBlockWidth: number;
+    endSearchCallback: () => void;
 }

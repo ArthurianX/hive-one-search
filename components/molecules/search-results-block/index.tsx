@@ -5,6 +5,7 @@ const SearchResultsBlockDiv = styled.div`
     display: ${({ isFocused }: SearchResultsBlockProps) =>
         isFocused ? 'flex' : 'none'};
     flex: 1;
+    flex-direction: column;
     margin: 0 0.5vw;
     padding: 1rem;
     height: 40rem;
