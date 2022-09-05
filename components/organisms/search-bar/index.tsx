@@ -6,6 +6,7 @@ import SearchInputAtom from '../../atoms/search-input';
 import SearchResultsBlock from '../../molecules/search-results-block';
 import RecentResults from '../../molecules/recent-results';
 import SearchResults from '../../molecules/search-results';
+import SearchButtonAtom from '../../atoms/search-button';
 
 const SearchBar = (props: SearchBarProps): JSX.Element => {
     const {
@@ -37,6 +38,7 @@ const SearchBar = (props: SearchBarProps): JSX.Element => {
                 setValueCallback={setSearchValue}
                 setEnterCallback={endSearchCallback}
             />
+            <SearchButtonAtom searchCallback={endSearchCallback} />
             <SearchResultsBlock
                 isFocused={isFocused}
                 searchBlockWidth={searchBlockWidth}
